@@ -1,0 +1,810 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Environmental Monitoring</title>
+
+    <meta
+        name="description"
+        content="Explore flood, drought, and vegetation monitoring through a unified environmental analysis platform."
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Go to homepage">
+            <span class="logo-mark">GL</span>
+            <span>GeoLens</span>
+        </a>
+
+        <nav class="home-nav" aria-label="Main navigation">
+            <a href="#home" class="home-nav-link active">Home</a>
+            <a href="#monitoring" class="home-nav-link">Monitoring</a>
+            <a href="#about" class="home-nav-link">About</a>
+        </nav>
+
+        <div class="navbar-actions">
+            <button
+                id="themeToggle"
+                class="icon-button"
+                type="button"
+                aria-label="Toggle colour theme"
+                title="Toggle theme"
+            >◐</button>
+
+        </div>
+    </header>
+
+
+    <!-- HOMEPAGE -->
+    <main id="home" class="homepage">
+
+        <!-- HERO -->
+        <section class="hero-section">
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    <span class="status-indicator"></span>
+                    ENVIRONMENTAL DISASTER PREDICTION SYSTEM
+                </div>
+
+                <h1>
+                    Foreseeing the danger,
+                    <span class="hero-highlight">shielding the future.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Explore environmental conditions through a unified
+                    monitoring platform for floods, droughts, and vegetation.
+                    Navigate regional observations and access location-specific
+                    environmental analysis.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#monitoring" class="primary-button">
+                        Explore Monitoring
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                    <a href="#about" class="secondary-button">
+                        About the Platform
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span class="note-line"></span>
+                    <span>
+                        Three monitoring areas.
+                        One environmental overview.
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="hero-visual" aria-hidden="true">
+                <div class="visual-grid"></div>
+                <div class="visual-orbit orbit-one"></div>
+                <div class="visual-orbit orbit-two"></div>
+
+                <div class="visual-core">
+                    <span class="core-label">EARTH</span>
+                    <span class="core-symbol">◎</span>
+                    <span class="core-caption">Environmental system</span>
+                </div>
+
+                <div class="visual-tag visual-tag-top">
+                    <span class="tag-dot flood-dot"></span>
+                    FLOOD
+                </div>
+
+                <div class="visual-tag visual-tag-left">
+                    <span class="tag-dot drought-dot"></span>
+                    DROUGHT
+                </div>
+
+                <div class="visual-tag visual-tag-bottom">
+                    <span class="tag-dot vegetation-dot"></span>
+                    VEGETATION
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PLATFORM OVERVIEW -->
+        <section class="platform-overview" aria-label="Platform overview">
+            <div class="overview-item">
+                <span class="overview-number">01</span>
+                <div>
+                    <h2>Explore</h2>
+                    <p>Select an environmental monitoring category.</p>
+                </div>
+            </div>
+
+            <div class="overview-divider"></div>
+
+            <div class="overview-item">
+                <span class="overview-number">02</span>
+                <div>
+                    <h2>Select a location</h2>
+                    <p>Browse the locations available for that category.</p>
+                </div>
+            </div>
+
+            <div class="overview-divider"></div>
+
+            <div class="overview-item">
+                <span class="overview-number">03</span>
+                <div>
+                    <h2>Analyse</h2>
+                    <p>Open location-specific environmental information.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- MONITORING CATEGORIES -->
+        <section id="monitoring" class="monitoring-section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="section-eyebrow">MONITORING AREAS / 03</span>
+                    <h2>Explore Monitoring</h2>
+
+                    <p>
+                        Choose an environmental system to explore its
+                        available locations and analysis.
+                    </p>
+                </div>
+
+                <span class="section-index">01 — 03</span>
+            </div>
+
+
+            <!-- HOMEPAGE SEARCH -->
+            <div class="location-search">
+                <span class="search-symbol" aria-hidden="true">⌕</span>
+
+                <input
+                    type="search"
+                    id="locationSearch"
+                    name="locationSearch"
+                    placeholder="Search monitoring categories or locations..."
+                    aria-label="Search monitoring categories or locations"
+                    autocomplete="off"
+                >
+
+                <span class="search-shortcut">SEARCH</span>
+            </div>
+
+            <div
+                id="homepageLocationResults"
+                class="homepage-location-results"
+                role="list"
+                aria-label="Matching locations"
+                hidden
+            ></div>
+
+            <p
+                id="searchMessage"
+                class="search-message"
+                role="status"
+                aria-live="polite"
+                hidden
+            ></p>
+
+
+            <!-- CATEGORY CARDS -->
+            <div class="category-grid">
+
+                <!-- FLOOD -->
+                <article
+                    class="category-card flood-category"
+                    data-category="flood"
+                    data-search="flood floods water inundation rainfall"
+                >
+                    <div class="category-card-top">
+                        <span class="category-number">01</span>
+                        <span class="category-status">MONITORING AREA</span>
+                    </div>
+
+                    <div class="category-visual flood-visual" aria-hidden="true">
+                        <div class="visual-contour contour-one"></div>
+                        <div class="visual-contour contour-two"></div>
+                        <div class="visual-contour contour-three"></div>
+                        <span class="category-visual-symbol">≈</span>
+                    </div>
+
+                    <div class="category-card-content">
+                        <span class="category-label">WATER SYSTEMS</span>
+                        <h3>Flood Monitoring</h3>
+
+                        <p>
+                            Explore flood-related conditions and available
+                            regional observations to understand potential
+                            inundation concerns.
+                        </p>
+
+                        <div class="category-card-footer">
+                            <span class="category-accent-label">
+                                FLOOD / HYDROLOGY
+                            </span>
+
+                            <button
+                                type="button"
+                                class="category-link"
+                                data-open-category="flood"
+                                aria-label="Explore flood monitoring"
+                            >
+                                Explore <span aria-hidden="true">↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- DROUGHT -->
+                <article
+                    class="category-card drought-category"
+                    data-category="drought"
+                    data-search="drought dry soil water scarcity rainfall deficit"
+                >
+                    <div class="category-card-top">
+                        <span class="category-number">02</span>
+                        <span class="category-status">MONITORING AREA</span>
+                    </div>
+
+                    <div class="category-visual drought-visual" aria-hidden="true">
+                        <div class="drought-ring ring-one"></div>
+                        <div class="drought-ring ring-two"></div>
+                        <div class="drought-ring ring-three"></div>
+                        <span class="category-visual-symbol">⌁</span>
+                    </div>
+
+                    <div class="category-card-content">
+                        <span class="category-label">WATER AVAILABILITY</span>
+                        <h3>Drought Monitoring</h3>
+
+                        <p>
+                            Explore drought-related conditions and available
+                            observations associated with dryness and
+                            water availability.
+                        </p>
+
+                        <div class="category-card-footer">
+                            <span class="category-accent-label">
+                                DROUGHT / DRYNESS
+                            </span>
+
+                            <button
+                                type="button"
+                                class="category-link"
+                                data-open-category="drought"
+                                aria-label="Explore drought monitoring"
+                            >
+                                Explore <span aria-hidden="true">↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- VEGETATION -->
+                <article
+                    class="category-card vegetation-category"
+                    data-category="vegetation"
+                    data-search="vegetation plants forest greenery land cover"
+                >
+                    <div class="category-card-top">
+                        <span class="category-number">03</span>
+                        <span class="category-status">MONITORING AREA</span>
+                    </div>
+
+                    <div class="category-visual vegetation-visual" aria-hidden="true">
+                        <div class="vegetation-grid"></div>
+                        <span class="category-visual-symbol">⌘</span>
+                    </div>
+
+                    <div class="category-card-content">
+                        <span class="category-label">LAND SYSTEMS</span>
+                        <h3>Vegetation Monitoring</h3>
+
+                        <p>
+                            Explore vegetation-related observations and
+                            available information about plant cover and
+                            environmental change.
+                        </p>
+
+                        <div class="category-card-footer">
+                            <span class="category-accent-label">
+                                VEGETATION / LAND
+                            </span>
+
+                            <button
+                                type="button"
+                                class="category-link"
+                                data-open-category="vegetation"
+                                aria-label="Explore vegetation monitoring"
+                            >
+                                Explore <span aria-hidden="true">↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- INTERACTIVE LOCATION MAP -->
+<section id="locationMapSection" class="location-map-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-eyebrow">
+                GEOGRAPHIC EXPLORER / 15 LOCATIONS
+            </span>
+
+            <h2>Explore the Map</h2>
+
+            <p>
+                Select a monitoring area to explore its locations
+                across West Bengal and North Bengal.
+            </p>
+        </div>
+
+        <span class="section-index">MAP / 01</span>
+    </div>
+
+    <div
+        class="map-filter-bar"
+        role="group"
+        aria-label="Filter map locations"
+    >
+        <button
+            type="button"
+            class="map-filter-button active"
+            data-map-filter="all"
+            aria-pressed="true"
+        >
+            All locations
+        </button>
+
+        <button
+            type="button"
+            class="map-filter-button"
+            data-map-filter="flood"
+            aria-pressed="false"
+        >
+            <span class="map-filter-dot flood-map-dot"></span>
+            Flood
+        </button>
+
+        <button
+            type="button"
+            class="map-filter-button"
+            data-map-filter="drought"
+            aria-pressed="false"
+        >
+            <span class="map-filter-dot drought-map-dot"></span>
+            Drought
+        </button>
+
+        <button
+            type="button"
+            class="map-filter-button"
+            data-map-filter="vegetation"
+            aria-pressed="false"
+        >
+            <span class="map-filter-dot vegetation-map-dot"></span>
+            Vegetation
+        </button>
+    </div>
+
+    <div class="interactive-map-frame">
+        <div
+            id="locationMap"
+            aria-label="Interactive map of environmental monitoring locations in West Bengal"
+        ></div>
+
+        <div
+            class="map-loading-message"
+            id="locationMapMessage"
+            role="status"
+        >
+            Loading map locations…
+        </div>
+    </div>
+
+    <div class="interactive-map-footer">
+        <p>
+            <span class="map-source-dot"></span>
+            Location markers show monitoring areas, not live risk measurements.
+        </p>
+
+        <span>Map tiles © OpenStreetMap contributors</span>
+    </div>
+
+</section>
+
+            <p class="monitoring-disclaimer">
+                <span class="disclaimer-mark">i</span>
+                Monitoring results, observations, and assessments will depend
+                on the data sources connected to each location.
+            </p>
+
+        </section>
+
+
+        <!-- ABOUT THE PLATFORM -->
+        <section id="about" class="about-section">
+            <div class="about-heading">
+                <span class="section-eyebrow">ABOUT THE PLATFORM</span>
+                <h2>From environmental signals to location-level analysis.</h2>
+            </div>
+
+            <div class="about-content">
+                <p>
+                    The platform organises environmental monitoring into
+                    three areas, helping users navigate from a broad category
+                    to a specific location and its available analysis.
+                </p>
+
+                <div class="about-flow">
+                    <span>Category</span>
+                    <span aria-hidden="true">→</span>
+                    <span>Location</span>
+                    <span aria-hidden="true">→</span>
+                    <span>Analysis</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="homepage-footer">
+            <a href="#home" class="footer-brand">
+                DMS / ENVIRONMENTAL SYSTEMS
+            </a>
+
+            <p>
+                Environmental monitoring interface
+                <span aria-hidden="true">·</span>
+                Data availability depends on connected sources
+            </p>
+
+            <a href="#home" class="back-to-top">Back to top ↑</a>
+        </footer>
+
+    </main>
+
+
+    <!-- CATEGORY LOCATION VIEW -->
+    <section id="categoryPage" class="category-page" hidden>
+        <div class="category-page-header">
+            <a href="#home" id="backToHome" class="back-link">
+                ← Back to homepage
+            </a>
+
+            <span id="categoryPageEyebrow" class="section-eyebrow">
+                MONITORING AREA
+            </span>
+
+            <h1 id="categoryPageTitle">Flood Monitoring</h1>
+
+            <p id="categoryPageDescription">
+                Browse locations available for environmental monitoring.
+            </p>
+        </div>
+
+        <div class="location-list-header">
+            <h2>Available locations</h2>
+
+            <input
+                id="locationListSearch"
+                type="search"
+                placeholder="Search locations..."
+                aria-label="Search locations"
+            >
+        </div>
+
+        <div id="locationList" class="location-list"></div>
+
+        <p id="locationListMessage" class="search-message" role="status"></p>
+    </section>
+
+
+    <!-- INDIVIDUAL LOCATION ANALYSIS PAGE -->
+    <section id="locationAnalysisPage" class="location-analysis-page" hidden>
+
+        <div class="analysis-breadcrumbs">
+            <a href="#home" id="analysisHomeLink">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="#" id="analysisCategoryLink">Monitoring</a>
+            <span aria-hidden="true">/</span>
+            <span id="analysisBreadcrumbLocation">Location</span>
+        </div>
+
+        <header class="location-analysis-header">
+            <div>
+                <span id="analysisCategoryLabel" class="section-eyebrow">
+                    ENVIRONMENTAL MONITORING
+                </span>
+
+                <h1 id="analysisLocationTitle">Location Analysis</h1>
+
+                <p id="analysisLocationRegion">
+                    Region information unavailable
+                </p>
+            </div>
+
+            <span id="analysisDataStatus" class="analysis-data-badge">
+                DATA NOT CONNECTED
+            </span>
+        </header>
+
+
+        <!-- BEFORE AND AFTER SATELLITE COMPARISON -->
+        <section class="satellite-comparison-section">
+            <div class="analysis-section-heading">
+                <div>
+                    <span class="section-eyebrow">SATELLITE OBSERVATIONS</span>
+                    <h2>Before &amp; After Comparison</h2>
+                </div>
+
+                <p>
+                    Images and dates will appear when verified imagery is available.
+                </p>
+            </div>
+
+            <div class="satellite-comparison-grid">
+
+                <!-- BEFORE IMAGE -->
+                <article class="satellite-panel">
+                    <div class="satellite-panel-header">
+                        <h3>Before</h3>
+                        <span id="beforeImageDate">Date unavailable</span>
+                    </div>
+
+                    <div
+                        class="satellite-image-container"
+                        id="beforeImageContainer"
+                    >
+                        <img
+                            id="beforeSatelliteImage"
+                            class="satellite-image"
+                            alt="Before satellite observation"
+                            hidden
+                        >
+
+                        <div
+                            class="satellite-image-placeholder"
+                            id="beforeImagePlaceholder"
+                        >
+                            <span class="placeholder-symbol">◎</span>
+                            <p>Satellite imagery unavailable</p>
+                            <span>Awaiting a connected imagery source</span>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- AFTER IMAGE -->
+                <article class="satellite-panel">
+                    <div class="satellite-panel-header">
+                        <h3>After</h3>
+                        <span id="afterImageDate">Date unavailable</span>
+                    </div>
+
+                    <div
+                        class="satellite-image-container"
+                        id="afterImageContainer"
+                    >
+                        <img
+                            id="afterSatelliteImage"
+                            class="satellite-image"
+                            alt="After satellite observation"
+                            hidden
+                        >
+
+                        <div
+                            class="satellite-image-placeholder"
+                            id="afterImagePlaceholder"
+                        >
+                            <span class="placeholder-symbol">◎</span>
+                            <p>Satellite imagery unavailable</p>
+                            <span>Awaiting a connected imagery source</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+
+        <!-- DETECTED CHANGES -->
+        <section class="detected-changes-section">
+            <div class="analysis-section-heading">
+                <div>
+                    <span class="section-eyebrow">OBSERVATIONS</span>
+                    <h2>Detected Changes</h2>
+                </div>
+            </div>
+
+            <div class="analysis-empty-state">
+                <span class="empty-state-mark">i</span>
+
+                <div>
+                    <h3>No verified change assessment available</h3>
+                    <p>
+                        Detected changes will be displayed after the relevant
+                        imagery and analysis results are supplied by the backend.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ENVIRONMENTAL ASSESSMENT -->
+        <section class="backend-assessment-section">
+            <div class="analysis-section-heading">
+                <div>
+                    <span class="section-eyebrow">BACKEND RESULTS</span>
+                    <h2>Environmental Assessment</h2>
+                </div>
+            </div>
+
+            <div class="assessment-indicators">
+
+                <article class="assessment-indicator" data-assessment="flood">
+                    <span class="indicator-label">FLOOD MONITORING</span>
+                    <h3>Inundation Assessment</h3>
+                    <p>
+                        Evaluates available flood-related observations and
+                        potential inundation patterns.
+                    </p>
+                    <span class="indicator-status">Awaiting backend data</span>
+                </article>
+
+                <article class="assessment-indicator" data-assessment="drought">
+                    <span class="indicator-label">DROUGHT MONITORING</span>
+                    <h3>Water Availability Assessment</h3>
+                    <p>
+                        Evaluates available dryness indicators and
+                        water-availability observations.
+                    </p>
+                    <span class="indicator-status">Awaiting backend data</span>
+                </article>
+
+                <article class="assessment-indicator" data-assessment="vegetation">
+                    <span class="indicator-label">VEGETATION MONITORING</span>
+                    <h3>Vegetation Condition Assessment</h3>
+                    <p>
+                        Evaluates available vegetation observations and
+                        potential changes in land cover.
+                    </p>
+                    <span class="indicator-status">Awaiting backend data</span>
+                </article>
+
+            </div>
+
+            <p class="assessment-disclaimer">
+                These are assessment categories, not measured results.
+                Actual indicators and predictions will appear when verified
+                backend data becomes available.
+            </p>
+        </section>
+
+
+        <button id="backToLocations" class="secondary-button" type="button">
+            ← Back to locations
+        </button>
+
+    </section>
+
+
+    <!-- LEGACY MONITORING VIEW -->
+    <section id="legacyDashboard" hidden aria-hidden="true">
+
+        <aside class="sidebar">
+            <nav aria-label="Legacy monitoring navigation">
+                <a href="#" class="nav-item" data-section="dashboard">Dashboard</a>
+                <a href="#" class="nav-item" data-section="flood">Flood</a>
+                <a href="#" class="nav-item" data-section="drought">Drought</a>
+                <a href="#" class="nav-item" data-section="vegetation">Vegetation</a>
+            </nav>
+        </aside>
+
+        <div class="app-container">
+            <main class="main-content">
+            
+                <header class="dashboard-header">
+                    <h1>Environmental Dashboard</h1>
+                </header>
+
+                <div class="status-cards">
+                    <article class="status-card flood-card">
+                        <h2>Flood Monitoring</h2>
+                        <p id="floodValue">Moderate</p>
+                        <p>Current flood risk level</p>
+                    </article>
+
+                    <article class="status-card drought-card">
+                        <h2>Drought Monitoring</h2>
+                        <p id="droughtValue">Low</p>
+                        <p>Current drought risk level</p>
+                    </article>
+
+                    <article class="status-card vegetation-card">
+                        <h2>Vegetation Monitoring</h2>
+                        <p id="vegetationValue">Healthy</p>
+                        <p>Current vegetation condition</p>
+                    </article>
+                </div>
+
+                <div class="monitoring-context">
+                    <span>West Bengal, India</span>
+                    <span id="lastUpdated">
+                        Not connected to a live data source
+                    </span>
+                </div>
+
+                <section class="analysis-section">
+                    <div class="section-header">
+                        <h2 id="monitoringTitle">FLOOD MONITORING</h2>
+                        <button id="refreshButton" type="button">Refresh</button>
+                    </div>
+
+                    <p id="systemStatus">Monitoring view</p>
+
+                    <div class="layer-controls">
+                        <button class="layer-button" data-layer="flood" type="button">
+                            Flood
+                        </button>
+
+                        <button class="layer-button" data-layer="drought" type="button">
+                            Drought
+                        </button>
+
+                        <button class="layer-button" data-layer="vegetation" type="button">
+                            Vegetation
+                        </button>
+                    </div>
+
+                    <div class="risk-legend">
+                        <span>Low</span>
+                        <span>Moderate</span>
+                        <span>High</span>
+                    </div>
+
+                    <div class="map-container">
+                        <div id="map" style="height: 400px; width: 100%;"></div>
+
+                        <div id="mapLegend">
+                            <p id="mapLegendText">Illustrative map overlay</p>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+    </section>
+
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
+
