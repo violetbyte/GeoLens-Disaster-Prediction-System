@@ -520,6 +520,54 @@
         <div id="locationList" class="location-list"></div>
 
         <p id="locationListMessage" class="search-message" role="status"></p>
+
+        <section class="category-guide" aria-labelledby="categoryGuideTitle">
+            <div class="category-guide-heading">
+                <span class="section-eyebrow">A QUICK GUIDE</span>
+                <h2 id="categoryGuideTitle">How to use this tool</h2>
+                <p>Choose a location above, then add a relevant image below to prepare it for analysis.</p>
+            </div>
+
+            <ol class="category-guide-steps">
+                <li><span>01</span><div><strong>Choose a location</strong><p>Search the list above and open a location to review its available observations.</p></div></li>
+                <li><span>02</span><div><strong>Add an image</strong><p>Select a clear image related to this monitoring area. A preview will appear before submission.</p></div></li>
+                <li><span>03</span><div><strong>Connect the analysis service</strong><p>Image analysis is not connected yet. No prediction or assessment will be generated on this page.</p></div></li>
+            </ol>
+
+            <p class="category-accuracy-note"><strong>Accuracy information:</strong> No validated model or accuracy measurements are connected yet. Results will only be shown after a verified analysis service is integrated.</p>
+        </section>
+
+        <section class="image-analysis-section" aria-labelledby="imageAnalysisTitle">
+            <div class="image-analysis-heading">
+                <div>
+                    <span class="section-eyebrow">IMAGE INPUT</span>
+                    <h2 id="imageAnalysisTitle">Prepare an image for analysis</h2>
+                    <p>Choose an image to preview it. Submission is currently a frontend placeholder.</p>
+                </div>
+                <span class="integration-badge">BACKEND NOT CONNECTED</span>
+            </div>
+
+            <form id="imageAnalysisForm" class="image-analysis-form">
+                <input id="analysisImageInput" class="visually-hidden-input" type="file" accept="image/*" aria-describedby="imageAnalysisStatus">
+                <label class="image-upload-control" for="analysisImageInput">
+                    <span class="upload-symbol" aria-hidden="true">＋</span>
+                    <span><strong>Choose an image</strong><small>PNG, JPG, or other browser-supported image · up to 10 MB</small></span>
+                </label>
+
+                <div id="imagePreviewPanel" class="image-preview-panel" hidden>
+                    <img id="analysisImagePreview" alt="Selected image preview">
+                    <div class="image-preview-details"><strong id="analysisImageName"></strong><span id="analysisImageSize"></span></div>
+                    <button id="clearAnalysisImage" class="image-clear-button" type="button">Remove image</button>
+                </div>
+
+                <div class="image-analysis-actions">
+                    <button id="submitAnalysisImage" class="image-submit-button" type="submit" disabled>Submit image</button>
+                    <p id="imageAnalysisStatus" class="image-analysis-status" role="status" aria-live="polite">Select an image to enable the placeholder submission.</p>
+                </div>
+            </form>
+
+            <p class="integration-note"><strong>Integration placeholder:</strong> This form does not upload files or run a model. Connect a backend endpoint here before enabling real analysis.</p>
+        </section>
     </section>
 
 

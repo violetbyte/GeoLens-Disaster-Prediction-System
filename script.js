@@ -730,6 +730,7 @@ function openCategory(category) {
 
     hideAllMainViews();
     categoryPage.hidden = false;
+    categoryPage.dataset.category = category;
 
     const title = document.querySelector("#categoryPageTitle");
     const description = document.querySelector("#categoryPageDescription");
@@ -740,6 +741,7 @@ function openCategory(category) {
     if (eyebrow) eyebrow.textContent = info.eyebrow;
 
     currentCategory = category;
+    clearAnalysisImage();
     renderLocationList(category);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -913,6 +915,84 @@ if (backToHome) {
 ========================================== */
 
 initializeMap();
+
+
+/* ==========================================
+   IMAGE ANALYSIS FRONTEND PLACEHOLDER
+========================================== */
+
+const analysisImageInput = document.querySelector("#analysisImageInput");
+const imageAnalysisForm = document.querySelector("#imageAnalysisForm");
+const imagePreviewPanel = document.querySelector("#imagePreviewPanel");
+const analysisImagePreview = document.querySelector("#analysisImagePreview");
+const analysisImageName = document.querySelector("#analysisImageName");
+const analysisImageSize = document.querySelector("#analysisImageSize");
+const submitAnalysisImage = document.querySelector("#submitAnalysisImage");
+const imageAnalysisStatus = document.querySelector("#imageAnalysisStatus");
+const clearAnalysisImageButton = document.querySelector("#clearAnalysisImage");
+let analysisImageObjectUrl = null;
+let selectedAnalysisImage = null;
+
+function clearAnalysisImage() {
+    if (analysisImageObjectUrl) {
+        URL.revokeObjectURL(analysisImageObjectUrl);
+        analysisImageObjectUrl = null;
+    }
+
+    if (analysisImageInput) analysisImageInput.value = "";
+    selectedAnalysisImage = null;
+    if (analysisImagePreview) analysisImagePreview.removeAttribute("src");
+    if (imagePreviewPanel) imagePreviewPanel.hidden = true;
+    if (analysisImageName) analysisImageName.textContent = "";
+    if (analysisImageSize) analysisImageSize.textContent = "";
+    if (submitAnalysisImage) submitAnalysisImage.disabled = true;
+    if (imageAnalysisStatus) {
+        imageAnalysisStatus.textContent = "Select an image to enable the placeholder submission.";
+    }
+}
+
+if (analysisImageInput) {
+    analysisImageInput.addEventListener("change", function () {
+        const file = analysisImageInput.files && analysisImageInput.files[0];
+        clearAnalysisImage();
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            imageAnalysisStatus.textContent = "Choose a supported image file.";
+            return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+            imageAnalysisStatus.textContent = "This image is larger than 10 MB. Choose a smaller file.";
+            analysisImageInput.value = "";
+            return;
+        }
+
+        analysisImageObjectUrl = URL.createObjectURL(file);
+        selectedAnalysisImage = file;
+        analysisImagePreview.src = analysisImageObjectUrl;
+        analysisImageName.textContent = file.name;
+        analysisImageSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+        imagePreviewPanel.hidden = false;
+        submitAnalysisImage.disabled = false;
+        imageAnalysisStatus.textContent = "Preview ready. Submission will not upload or analyze this image yet.";
+    });
+}
+
+if (clearAnalysisImageButton) {
+    clearAnalysisImageButton.addEventListener("click", clearAnalysisImage);
+}
+
+if (imageAnalysisForm) {
+    imageAnalysisForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!selectedAnalysisImage) return;
+
+        imageAnalysisStatus.textContent =
+            "Backend not connected. The image was not uploaded and no prediction was generated.";
+    });
+}
 
 
 
